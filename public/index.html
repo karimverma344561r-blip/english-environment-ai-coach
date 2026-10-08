@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000"><link rel="manifest" href="/manifest.webmanifest">
+<title>English Environment</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#000;color:#f5f5f5;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#080808;border-bottom:1px solid #292929;padding:16px}
+h1{margin:0;font-size:24px}.sub{color:#999;font-size:12px;margin-top:4px}
+main{max-width:760px;margin:auto;padding:14px}.card,.hero{background:#151515;border:1px solid #292929;border-radius:20px;padding:16px;margin-bottom:12px}.hero{background:linear-gradient(145deg,#1a1a1a,#0b0b0b)}
+h2{margin:0 0 6px;font-size:25px}.muted,.tiny{color:#999}.tiny{font-size:12px}
+.chat{height:330px;overflow:auto;display:flex;flex-direction:column;gap:8px}.bubble{max-width:88%;padding:11px 13px;border-radius:15px;line-height:1.45;white-space:pre-wrap}.coach{align-self:flex-start;background:#282828}.me{align-self:flex-end;background:#fff;color:#000}
+input,select{width:100%;padding:12px;margin-top:6px;background:#090909;color:#fff;border:1px solid #444;border-radius:12px}
+button{border:0;border-radius:13px;padding:12px 14px;font-weight:800;cursor:pointer;flex:1;min-width:120px}button.primary{background:#fff;color:#000}button.blue{background:#4da3ff;color:#00101c}button.secondary{background:#2a2a2a;color:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.label{text-transform:uppercase;letter-spacing:.09em;color:#999;font-size:11px}
+.prompt{font-size:23px;line-height:1.3;margin:9px 0}.answer{min-height:62px;background:#0b0b0b;border:1px dashed #444;border-radius:13px;padding:12px;white-space:pre-wrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.stat{font-size:23px;font-weight:800;margin-top:4px}
+.good{color:#72e39a}.warn{color:#ffd166}.err{color:#ff8989}.hide{display:none}
+footer{text-align:center;color:#666;padding:20px;font-size:11px}
+</style>
+</head>
+<body>
+<header><h1>🌍 English Environment</h1><div class="sub">Your personal English AI coach</div></header>
+<main>
+<section class="hero"><h2 id="greet">Good morning.</h2><div class="muted">Talk. Get corrected. Repeat. Make English normal.</div>
+<div class="row"><button class="blue" id="start">▶ Start English Mode</button><button class="secondary" id="stop">■ Stop</button></div></section>
+
+<section class="card"><div class="label">Live AI conversation</div><div class="chat" id="chat"></div>
+<div class="row"><button class="primary" id="speak">🎤 Speak English</button><button class="secondary" id="hear">🔊 Hear last reply</button></div>
+<div class="tiny" id="status">AI connection: checking…</div></section>
+
+<section class="card"><div class="label">Daily mission</div><div class="prompt" id="prompt"></div>
+<div class="answer" id="answer">Tap Speak and answer in English.</div>
+<div class="row"><button class="primary" id="missionSpeak">🎤 Practice</button><button class="secondary" id="missionHear">🔊 Listen</button><button class="secondary" id="next">↻ New</button></div>
+<div id="feedback"></div></section>
+
+<section class="grid">
+<div class="card"><div class="label">Streak</div><div class="stat" id="streak">0</div><div class="tiny">days</div></div>
+<div class="card"><div class="label">Minutes</div><div class="stat" id="minutes">0</div><div class="tiny">spoken</div></div>
+<div class="card wide"><div class="label">Useful phrase</div><div class="prompt" id="phrase">“Let me think about it.”</div>
+<div class="row"><button class="secondary" id="phraseNew">Another</button><button class="secondary" id="phraseHear">🔊 Say it</button></div></div>
+</section>
+
+<section class="card"><details><summary>⚙️ Personal settings & reminders</summary>
+<label class="tiny">Name<input id="name" placeholder="Your name"></label>
+<label class="tiny">Level<select id="level"><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advanced</option></select></label>
+<label class="tiny">Daily goal (minutes)<input id="goal" type="number" min="5" max="120" value="15"></label>
+<div class="row"><button class="blue" id="save">Save</button><button class="secondary" id="enablePush">🔔 Enable reminders</button><button class="secondary" id="testPush">Test reminder</button></div>
+<div class="tiny">Push reminders require HTTPS on a deployed site (localhost works for development) plus VAPID keys on the server.</div>
+</details></section>
+</main><footer>English Environment v3 • AI + memory + voice + reminders</footer>
+
+<script>
+const id=localStorage.ee_user_id||(crypto.randomUUID?crypto.randomUUID():String(Date.now()));localStorage.ee_user_id=id;
+const qs=s=>document.querySelector(s);
+const prompts=["Tell me what you are doing right now.","What are you going to do after this?","Describe your room in five sentences.","Tell me about your favorite food.","What did you do yesterday?","What is one goal you have this month?","Describe your morning routine.","Tell me about something you learned recently.","What would you like to buy and why?","Explain how to make your favorite drink.","Tell me about a place you want to visit.","What makes a good friend?"];
+const phrases=["Let me think about it.","Could you say that again?","I understand what you mean.","I’m not sure, but I’ll try.","That sounds good to me.","Give me a moment, please.","I’d like to improve my English.","Let me explain.","In my opinion…","What do you recommend?"];
+let pi=+(localStorage.ee_pi||0), lastReply="";
+qs("#prompt").textContent=prompts[pi%prompts.length];
+const saved=JSON.parse(localStorage.ee_profile||"{}");qs("#name").value=saved.name||"";qs("#level").value=saved.level||"Beginner";qs("#goal").value=saved.goal||15;
+const h=new Date().getHours();qs("#greet").textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+(saved.name?", "+saved.name:"")+".";
+
+async function api(url,opt={}){const r=await fetch(url,{...opt,headers:{"Content-Type":"application/json",...(opt.headers||{})}});let j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"Request failed");return j}
+function say(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u)}
+function listen(cb){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Open this app in Chrome on Android and allow microphone access.");return}let r=new R();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>cb(e.results[0][0].transcript);r.onerror=()=>cb("");r.start()}
+function add(text,who){let d=document.createElement("div");d.className="bubble "+who;d.textContent=text;qs("#chat").appendChild(d);qs("#chat").scrollTop=99999}
+async function load(){try{let h=await api("/api/health");qs("#status").textContent=h.ai?"AI connection: online • "+h.model:"AI connection: server needs OPENAI_API_KEY";let p=await api("/api/profile?id="+encodeURIComponent(id));qs("#streak").textContent=p.stats.streak;qs("#minutes").textContent=p.stats.minutes}catch(e){qs("#status").textContent="AI connection: offline/server not configured"}}
+load();
+add("Hello! I’m your personal English coach. Tell me one thing you are doing today.","coach");
+qs("#speak").onclick=()=>listen(async text=>{if(!text)return;add(text,"me");try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:text})});lastReply=j.text;add(j.text,"coach");say(j.text);qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes}catch(e){add("AI is not connected yet. You can still use the speaking mission below.","coach")}});
+qs("#hear").onclick=()=>say(lastReply);
+qs("#missionSpeak").onclick=()=>listen(async text=>{if(!text){qs("#answer").textContent="I couldn't hear you. Try again.";return}qs("#answer").textContent=text;try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:"MISSION: "+text})});qs("#feedback").innerHTML='<div class="good">✓ Coach feedback:</div><div>'+j.text.replace(/\n/g,"<br>")+'</div>';say(j.text);qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes}catch(e){qs("#feedback").innerHTML='<div class="warn">AI feedback unavailable right now.</div>'}});
+qs("#missionHear").onclick=()=>say(qs("#prompt").textContent);
+qs("#next").onclick=()=>{pi++;localStorage.ee_pi=pi;qs("#prompt").textContent=prompts[pi%prompts.length];qs("#feedback").innerHTML=""};
+qs("#phraseNew").onclick=()=>qs("#phrase").textContent="“"+phrases[Math.floor(Math.random()*phrases.length)]+"”";
+qs("#phraseHear").onclick=()=>say(qs("#phrase").textContent.replace(/[“”]/g,""));
+qs("#start").onclick=()=>{let t="Good morning. English mode is on. Tell me what you are going to do first today.";add(t,"coach");say(t)};
+qs("#stop").onclick=()=>speechSynthesis.cancel();
+qs("#save").onclick=async()=>{let profile={id,name:qs("#name").value,level:qs("#level").value,goal:+qs("#goal").value||15};localStorage.ee_profile=JSON.stringify(profile);try{await api("/api/profile",{method:"POST",body:JSON.stringify(profile)})}catch{}location.reload()};
+
+async function pushSetup(){if(!("serviceWorker"in navigator)||!("PushManager"in window)){alert("Push notifications are not supported here.");return}
+let k=await api("/api/vapid-public-key");if(!k.publicKey){alert("Server push is not configured. Generate VAPID keys and put them in .env.");return}
+let reg=await navigator.serviceWorker.ready;let perm=await Notification.requestPermission();if(perm!=="granted"){alert("Notification permission was not granted.");return}
+let sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64(k.publicKey)});
+await api("/api/push/subscribe",{method:"POST",body:JSON.stringify({id,subscription:sub.toJSON()})});alert("Reminders enabled.")}
+function urlBase64(b){const p="=".repeat((4-b.length%4)%4),s=(b+p).replace(/-/g,"+").replace(/_/g,"/"),r=atob(s),a=new Uint8Array(r.length);for(let i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
+qs("#enablePush").onclick=()=>pushSetup().catch(e=>alert(e.message));
+qs("#testPush").onclick=async()=>{try{let j=await api("/api/push/test",{method:"POST",body:"{}"});alert("Sent to "+j.sent+" device(s).")}catch(e){alert(e.message)}};
+if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
+</script>
+</body></html>
