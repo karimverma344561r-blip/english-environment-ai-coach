@@ -1,92 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#000"><link rel="manifest" href="/manifest.webmanifest">
-<title>English Environment</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090a10"><meta name="apple-mobile-web-app-capable" content="yes"><link rel="manifest" href="/manifest.webmanifest">
+<title>English Environment — AI Conversation Coach</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#000;color:#f5f5f5;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{position:sticky;top:0;z-index:5;background:#080808;border-bottom:1px solid #292929;padding:16px}
-h1{margin:0;font-size:24px}.sub{color:#999;font-size:12px;margin-top:4px}
-main{max-width:760px;margin:auto;padding:14px}.card,.hero{background:#151515;border:1px solid #292929;border-radius:20px;padding:16px;margin-bottom:12px}.hero{background:linear-gradient(145deg,#1a1a1a,#0b0b0b)}
-h2{margin:0 0 6px;font-size:25px}.muted,.tiny{color:#999}.tiny{font-size:12px}
-.chat{height:330px;overflow:auto;display:flex;flex-direction:column;gap:8px}.bubble{max-width:88%;padding:11px 13px;border-radius:15px;line-height:1.45;white-space:pre-wrap}.coach{align-self:flex-start;background:#282828}.me{align-self:flex-end;background:#fff;color:#000}
-input,select{width:100%;padding:12px;margin-top:6px;background:#090909;color:#fff;border:1px solid #444;border-radius:12px}
-button{border:0;border-radius:13px;padding:12px 14px;font-weight:800;cursor:pointer;flex:1;min-width:120px}button.primary{background:#fff;color:#000}button.blue{background:#4da3ff;color:#00101c}button.secondary{background:#2a2a2a;color:#fff}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.label{text-transform:uppercase;letter-spacing:.09em;color:#999;font-size:11px}
-.prompt{font-size:23px;line-height:1.3;margin:9px 0}.answer{min-height:62px;background:#0b0b0b;border:1px dashed #444;border-radius:13px;padding:12px;white-space:pre-wrap}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.stat{font-size:23px;font-weight:800;margin-top:4px}
-.good{color:#72e39a}.warn{color:#ffd166}.err{color:#ff8989}.hide{display:none}
-footer{text-align:center;color:#666;padding:20px;font-size:11px}
+:root{--bg:#07080d;--panel:#11131b;--panel2:#171a24;--line:#282c3a;--text:#f7f8fb;--muted:#9da3b4;--accent:#9b8cff;--accent2:#66e6c2;--danger:#ff7b91;--shadow:0 18px 55px rgba(0,0,0,.32)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% -10%,#27213f 0,#07080d 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:rgba(7,8,13,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.07);padding:14px 16px}.top{max-width:920px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;gap:11px;align-items:center}.avatar{width:42px;height:42px;border-radius:15px;background:linear-gradient(135deg,#b7a9ff,#67e7c5);display:grid;place-items:center;color:#08090d;font-weight:950;box-shadow:0 10px 30px rgba(145,125,255,.25)}h1{font-size:17px;margin:0}.sub{font-size:11px;color:var(--muted);margin-top:2px}.online{font-size:11px;color:#9cebd5;background:#0d2925;border:1px solid #194b40;border-radius:999px;padding:7px 9px;white-space:nowrap}
+main{max-width:920px;margin:auto;padding:18px 14px 30px}.hero{border:1px solid rgba(255,255,255,.09);border-radius:28px;padding:24px;background:linear-gradient(145deg,rgba(33,29,55,.95),rgba(14,17,25,.96));box-shadow:var(--shadow);overflow:hidden;position:relative}.hero:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;right:-90px;top:-90px;background:rgba(155,140,255,.18);filter:blur(10px)}.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#bbb3ff}.hero h2{font-size:clamp(28px,7vw,46px);line-height:1.03;margin:8px 0 9px;max-width:720px}.hero p{color:#c3c7d3;max-width:650px;line-height:1.55;margin:0}.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}button{border:0;border-radius:14px;padding:13px 15px;font-weight:850;cursor:pointer;min-height:46px;transition:.18s transform,.18s opacity;flex:1}button:active{transform:scale(.98)}button.primary{background:linear-gradient(135deg,#fff,#dfe2ea);color:#090a0e}button.accent{background:linear-gradient(135deg,#a99bff,#7fe8d0);color:#08090d}button.secondary{background:#242734;color:#fff;border:1px solid #343847}.card{background:rgba(17,19,27,.9);border:1px solid var(--line);border-radius:22px;padding:15px;margin-top:12px;box-shadow:0 12px 35px rgba(0,0,0,.16)}.label{text-transform:uppercase;letter-spacing:.13em;font-size:10px;color:#8f95a8}.tiny{font-size:11px;color:var(--muted)}.muted{color:var(--muted)}
+.chat{height:380px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:7px 3px}.bubble{max-width:87%;padding:12px 14px;border-radius:18px;line-height:1.5;white-space:pre-wrap}.coach{align-self:flex-start;background:#1b1e29;border:1px solid #2a2e3d;border-bottom-left-radius:6px}.me{align-self:flex-end;background:#eeeef3;color:#0a0b10;border-bottom-right-radius:6px}.bubble small{display:block;opacity:.55;font-size:9px;margin-top:5px}.voicebar{display:flex;align-items:center;gap:10px;background:#0b0d13;border:1px solid #242735;border-radius:17px;padding:9px;margin-top:10px}.orb{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#a89cff 34%,#4e4a91 70%);box-shadow:0 0 0 7px rgba(155,140,255,.08);flex:none}.orb.live{animation:pulse 1.2s infinite}.voicecopy{flex:1}.voicecopy strong{font-size:12px}.voicecopy div{font-size:10px;color:var(--muted);margin-top:2px}.mic{width:52px;flex:none;background:#fff;color:#08090d;border-radius:14px;font-size:20px;padding:8px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.controls button{min-width:0}.toggle{display:flex;align-items:center;justify-content:space-between;background:#0c0e14;border:1px solid #252938;padding:11px 12px;border-radius:15px;margin-top:10px}.switch{width:44px;height:25px;background:#303444;border-radius:20px;padding:3px}.switch i{display:block;width:19px;height:19px;border-radius:50%;background:#fff;transition:.2s}.toggle.on .switch{background:#6b5fe5}.toggle.on .switch i{transform:translateX(19px)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{font-size:28px;font-weight:900;margin-top:5px}.statcard{padding:14px}.mission{font-size:20px;line-height:1.35;margin:8px 0 0}.answer{min-height:60px;background:#0a0c12;border:1px dashed #35394a;border-radius:15px;padding:12px;margin-top:10px;white-space:pre-wrap;color:#dfe2eb}.feedback{margin-top:10px;line-height:1.45}.good{color:#75e6c5}.warn{color:#ffd37b}.err{color:#ff98a9}input,select{width:100%;padding:12px;margin-top:6px;background:#0a0c12;color:#fff;border:1px solid #343848;border-radius:12px}details summary{cursor:pointer;font-weight:800}footer{text-align:center;color:#5f6472;padding:12px 0 25px;font-size:10px}
+@keyframes pulse{50%{box-shadow:0 0 0 14px rgba(155,140,255,.02),0 0 28px rgba(155,140,255,.35)}}
+@media(max-width:620px){.grid{grid-template-columns:1fr 1fr}.wide{grid-column:1/-1}.chat{height:330px}.hero{padding:20px}.hero h2{font-size:31px}}
 </style>
 </head>
 <body>
-<header><h1>🌍 English Environment</h1><div class="sub">Your personal English AI coach</div></header>
+<header><div class="top"><div class="brand"><div class="avatar">E</div><div><h1>English Environment</h1><div class="sub">Your warm AI English conversation coach</div></div></div><div class="online" id="online">Checking…</div></div></header>
 <main>
-<section class="hero"><h2 id="greet">Good morning.</h2><div class="muted">Talk. Get corrected. Repeat. Make English normal.</div>
-<div class="row"><button class="blue" id="start">▶ Start English Mode</button><button class="secondary" id="stop">■ Stop</button></div></section>
+<section class="hero"><div class="eyebrow">Conversation mode</div><h2 id="greet">Good evening.</h2><p>Speak naturally. I’ll keep the conversation flowing, gently fix the most useful mistakes, and help English start feeling automatic.</p><div class="row"><button class="accent" id="start">✨ Start talking</button><button class="secondary" id="stop">Stop voice</button></div></section>
 
-<section class="card"><div class="label">Live AI conversation</div><div class="chat" id="chat"></div>
-<div class="row"><button class="primary" id="speak">🎤 Speak English</button><button class="secondary" id="hear">🔊 Hear last reply</button></div>
-<div class="tiny" id="status">AI connection: checking…</div></section>
+<section class="card"><div class="label">Live conversation</div><div class="chat" id="chat"></div>
+<div class="voicebar"><div class="orb" id="orb"></div><div class="voicecopy"><strong id="voiceTitle">Natural voice</strong><div id="voiceStatus">Preparing your conversation voice…</div></div><button class="mic" id="speak" title="Speak">🎙️</button></div>
+<div class="controls"><button class="primary" id="hear">🔊 Hear again</button><button class="secondary" id="clear">Clear chat</button></div>
+<div class="toggle" id="hands"><div><strong>Hands-free conversation</strong><div class="tiny">After each reply, listen and continue speaking.</div></div><div class="switch"><i></i></div></div>
+<div class="tiny" id="status" style="margin-top:9px">AI connection: checking…</div></section>
 
-<section class="card"><div class="label">Daily mission</div><div class="prompt" id="prompt"></div>
-<div class="answer" id="answer">Tap Speak and answer in English.</div>
-<div class="row"><button class="primary" id="missionSpeak">🎤 Practice</button><button class="secondary" id="missionHear">🔊 Listen</button><button class="secondary" id="next">↻ New</button></div>
-<div id="feedback"></div></section>
+<section class="grid"><div class="card statcard"><div class="label">Streak</div><div class="stat" id="streak">0</div><div class="tiny">days</div></div><div class="card statcard"><div class="label">Speaking</div><div class="stat" id="minutes">0</div><div class="tiny">minutes</div></div><div class="card statcard"><div class="label">Level</div><div class="stat" id="levelStat">Beginner</div><div class="tiny">your pace</div></div></section>
 
-<section class="grid">
-<div class="card"><div class="label">Streak</div><div class="stat" id="streak">0</div><div class="tiny">days</div></div>
-<div class="card"><div class="label">Minutes</div><div class="stat" id="minutes">0</div><div class="tiny">spoken</div></div>
-<div class="card wide"><div class="label">Useful phrase</div><div class="prompt" id="phrase">“Let me think about it.”</div>
-<div class="row"><button class="secondary" id="phraseNew">Another</button><button class="secondary" id="phraseHear">🔊 Say it</button></div></div>
-</section>
+<section class="card"><div class="label">Today's conversation starter</div><div class="mission" id="prompt"></div><div class="answer" id="answer">Tap Practice and answer out loud.</div><div class="row"><button class="primary" id="missionSpeak">🎙️ Practice</button><button class="secondary" id="missionHear">🔊 Listen</button><button class="secondary" id="next">↻ New topic</button></div><div class="feedback" id="feedback"></div></section>
 
-<section class="card"><details><summary>⚙️ Personal settings & reminders</summary>
-<label class="tiny">Name<input id="name" placeholder="Your name"></label>
-<label class="tiny">Level<select id="level"><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advanced</option></select></label>
-<label class="tiny">Daily goal (minutes)<input id="goal" type="number" min="5" max="120" value="15"></label>
-<div class="row"><button class="blue" id="save">Save</button><button class="secondary" id="enablePush">🔔 Enable reminders</button><button class="secondary" id="testPush">Test reminder</button></div>
-<div class="tiny">Push reminders require HTTPS on a deployed site (localhost works for development) plus VAPID keys on the server.</div>
-</details></section>
-</main><footer>English Environment v3 • AI + memory + voice + reminders</footer>
+<section class="card"><div class="label">Phrase of the day</div><div class="mission" id="phrase">“Let me think about it.”</div><div class="row"><button class="secondary" id="phraseNew">Another phrase</button><button class="secondary" id="phraseHear">🔊 Say it</button></div></section>
 
+<section class="card"><details><summary>⚙️ Personal settings & reminders</summary><div style="height:10px"></div><label class="tiny">Name<input id="name" placeholder="Your name"></label><label class="tiny">Level<select id="level"><option>Beginner</option><option>Elementary</option><option>Intermediate</option><option>Advanced</option></select></label><label class="tiny">Daily goal (minutes)<input id="goal" type="number" min="5" max="120" value="15"></label><div class="row"><button class="accent" id="save">Save profile</button><button class="secondary" id="enablePush">🔔 Enable reminders</button><button class="secondary" id="testPush">Test</button></div><div class="tiny" style="margin-top:9px">Natural voice is generated securely on the server. Never put API keys in this page or in GitHub.</div></details></section>
+</main><footer>English Environment v4 • AI memory • natural Indian/Desi voice support • PWA</footer>
 <script>
 const id=localStorage.ee_user_id||(crypto.randomUUID?crypto.randomUUID():String(Date.now()));localStorage.ee_user_id=id;
 const qs=s=>document.querySelector(s);
-const prompts=["Tell me what you are doing right now.","What are you going to do after this?","Describe your room in five sentences.","Tell me about your favorite food.","What did you do yesterday?","What is one goal you have this month?","Describe your morning routine.","Tell me about something you learned recently.","What would you like to buy and why?","Explain how to make your favorite drink.","Tell me about a place you want to visit.","What makes a good friend?"];
-const phrases=["Let me think about it.","Could you say that again?","I understand what you mean.","I’m not sure, but I’ll try.","That sounds good to me.","Give me a moment, please.","I’d like to improve my English.","Let me explain.","In my opinion…","What do you recommend?"];
-let pi=+(localStorage.ee_pi||0), lastReply="";
-qs("#prompt").textContent=prompts[pi%prompts.length];
-const saved=JSON.parse(localStorage.ee_profile||"{}");qs("#name").value=saved.name||"";qs("#level").value=saved.level||"Beginner";qs("#goal").value=saved.goal||15;
+const prompts=["Tell me something that made you smile today.","What are you looking forward to this week?","Describe your perfect Sunday.","Tell me about a food you could eat every week.","What is something you want to learn this year?","If you could travel anywhere tomorrow, where would you go?","Tell me about someone you really respect.","What is one small habit you want to improve?","Describe your morning routine like you are telling a friend.","What movie or series could you watch again?","What makes a conversation enjoyable for you?","Tell me about a place in India you would recommend to a visitor."];
+const phrases=["Let me think about it.","That’s a good question.","Could you say that again?","I see what you mean.","Give me a moment to think.","That sounds good to me.","I’d love to try that.","Let me explain what I mean.","In my opinion…","What would you recommend?"];
+let pi=+(localStorage.ee_pi||0),lastReply="",naturalVoice=false,handsFree=false,busy=false;
+const saved=JSON.parse(localStorage.ee_profile||"{}");qs("#name").value=saved.name||"";qs("#level").value=saved.level||"Beginner";qs("#goal").value=saved.goal||15;qs("#levelStat").textContent=saved.level||"Beginner";
 const h=new Date().getHours();qs("#greet").textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+(saved.name?", "+saved.name:"")+".";
-
+qs("#prompt").textContent=prompts[pi%prompts.length];
 async function api(url,opt={}){const r=await fetch(url,{...opt,headers:{"Content-Type":"application/json",...(opt.headers||{})}});let j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"Request failed");return j}
-function say(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;speechSynthesis.speak(u)}
-function listen(cb){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Open this app in Chrome on Android and allow microphone access.");return}let r=new R();r.lang="en-US";r.interimResults=false;r.maxAlternatives=1;r.onresult=e=>cb(e.results[0][0].transcript);r.onerror=()=>cb("");r.start()}
+function browserSay(t){if(!("speechSynthesis"in window))return Promise.resolve();speechSynthesis.cancel();return new Promise(resolve=>{const u=new SpeechSynthesisUtterance(t);u.lang="en-IN";u.rate=.94;u.pitch=1.02;u.onend=resolve;u.onerror=resolve;speechSynthesis.speak(u)})}
+async function say(t){qs("#orb").classList.add("live");qs("#voiceStatus").textContent=naturalVoice?"Speaking naturally…":"Using device voice…";try{if(naturalVoice){const r=await fetch("/api/tts",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:t})});if(!r.ok)throw new Error("tts");const blob=await r.blob();const url=URL.createObjectURL(blob);await new Promise(resolve=>{const a=new Audio(url);a.onended=()=>{URL.revokeObjectURL(url);resolve()};a.onerror=()=>{URL.revokeObjectURL(url);resolve()};a.play().catch(()=>resolve())})}else await browserSay(t)}catch{await browserSay(t)}finally{qs("#orb").classList.remove("live");qs("#voiceStatus").textContent=naturalVoice?"Natural voice ready":"Device voice ready"}}
+function listen(cb){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("For voice practice, open this site in Chrome on Android and allow microphone access.");return}if(busy)return;busy=true;qs("#orb").classList.add("live");qs("#voiceStatus").textContent="Listening… speak naturally.";let r=new R();r.lang="en-IN";r.interimResults=false;r.maxAlternatives=1;r.continuous=false;r.onresult=e=>cb(e.results[0][0].transcript);r.onerror=()=>cb("");r.onend=()=>{busy=false;qs("#orb").classList.remove("live");qs("#voiceStatus").textContent=naturalVoice?"Natural voice ready":"Ready when you are"};r.start()}
 function add(text,who){let d=document.createElement("div");d.className="bubble "+who;d.textContent=text;qs("#chat").appendChild(d);qs("#chat").scrollTop=99999}
-async function load(){try{let h=await api("/api/health");qs("#status").textContent=h.ai?"AI connection: online • "+h.model:"AI connection: server needs OPENAI_API_KEY";let p=await api("/api/profile?id="+encodeURIComponent(id));qs("#streak").textContent=p.stats.streak;qs("#minutes").textContent=p.stats.minutes}catch(e){qs("#status").textContent="AI connection: offline/server not configured"}}
-load();
-add("Hello! I’m your personal English coach. Tell me one thing you are doing today.","coach");
-qs("#speak").onclick=()=>listen(async text=>{if(!text)return;add(text,"me");try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:text})});lastReply=j.text;add(j.text,"coach");say(j.text);qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes}catch(e){add("AI is not connected yet. You can still use the speaking mission below.","coach")}});
-qs("#hear").onclick=()=>say(lastReply);
-qs("#missionSpeak").onclick=()=>listen(async text=>{if(!text){qs("#answer").textContent="I couldn't hear you. Try again.";return}qs("#answer").textContent=text;try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:"MISSION: "+text})});qs("#feedback").innerHTML='<div class="good">✓ Coach feedback:</div><div>'+j.text.replace(/\n/g,"<br>")+'</div>';say(j.text);qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes}catch(e){qs("#feedback").innerHTML='<div class="warn">AI feedback unavailable right now.</div>'}});
+async function refresh(){try{let h=await api("/api/health");naturalVoice=!!h.voice;qs("#online").textContent=h.ai?"● AI online":"AI offline";qs("#status").textContent=h.ai?(h.voice?"AI online • natural voice ready • "+h.model:"AI online • device voice fallback • "+h.model):"AI server needs its API key";qs("#voiceTitle").textContent=h.voice?"Warm natural voice":"Device voice fallback";qs("#voiceStatus").textContent=h.voice?"Ready for a more human conversation":"Add ElevenLabs settings on the server for natural voice";let p=await api("/api/profile?id="+encodeURIComponent(id));qs("#streak").textContent=p.stats.streak;qs("#minutes").textContent=p.stats.minutes;qs("#levelStat").textContent=p.profile.level; if(!qs("#name").value&&p.profile.name)qs("#name").value=p.profile.name}catch(e){qs("#online").textContent="● Offline";qs("#status").textContent="AI connection unavailable"}}
+refresh();add("Hi! I’m ready. Tell me one thing about your day — and don’t worry about making it perfect.","coach");
+async function conversation(text){if(!text)return;add(text,"me");try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:text})});lastReply=j.text;add(j.text,"coach");qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes;await say(j.text);if(handsFree&&!busy)setTimeout(()=>listen(conversation),250)}catch(e){add("I’m having trouble connecting right now. Try once more in a moment.","coach")}}
+qs("#speak").onclick=()=>listen(conversation);
+qs("#hear").onclick=()=>lastReply&&say(lastReply);
+qs("#clear").onclick=()=>{qs("#chat").innerHTML="";add("Fresh conversation. What would you like to talk about?","coach")};
+qs("#start").onclick=async()=>{let t="English mode is on. Take your time — tell me what’s happening in your world today.";add(t,"coach");lastReply=t;await say(t);setTimeout(()=>listen(conversation),200)};
+qs("#stop").onclick=()=>{speechSynthesis?.cancel();handsFree=false;qs("#hands").classList.remove("on");qs("#voiceStatus").textContent=naturalVoice?"Natural voice ready":"Ready when you are"};
+qs("#hands").onclick=()=>{handsFree=!handsFree;qs("#hands").classList.toggle("on",handsFree);if(handsFree&&!busy)listen(conversation)};
+qs("#missionSpeak").onclick=()=>listen(async text=>{if(!text){qs("#answer").textContent="I couldn't hear you. Try again.";return}qs("#answer").textContent=text;try{let j=await api("/api/chat",{method:"POST",body:JSON.stringify({id,message:"MISSION PRACTICE: "+text})});qs("#feedback").innerHTML='<div class="good">✓ Coach feedback</div><div>'+j.text.replace(/\n/g,"<br>")+'</div>';lastReply=j.text;await say(j.text);qs("#streak").textContent=j.stats.streak;qs("#minutes").textContent=j.stats.minutes}catch(e){qs("#feedback").innerHTML='<div class="warn">AI feedback unavailable right now.</div>'}});
 qs("#missionHear").onclick=()=>say(qs("#prompt").textContent);
-qs("#next").onclick=()=>{pi++;localStorage.ee_pi=pi;qs("#prompt").textContent=prompts[pi%prompts.length];qs("#feedback").innerHTML=""};
+qs("#next").onclick=()=>{pi++;localStorage.ee_pi=pi;qs("#prompt").textContent=prompts[pi%prompts.length];qs("#feedback").innerHTML="";qs("#answer").textContent="Tap Practice and answer out loud."};
 qs("#phraseNew").onclick=()=>qs("#phrase").textContent="“"+phrases[Math.floor(Math.random()*phrases.length)]+"”";
 qs("#phraseHear").onclick=()=>say(qs("#phrase").textContent.replace(/[“”]/g,""));
-qs("#start").onclick=()=>{let t="Good morning. English mode is on. Tell me what you are going to do first today.";add(t,"coach");say(t)};
-qs("#stop").onclick=()=>speechSynthesis.cancel();
 qs("#save").onclick=async()=>{let profile={id,name:qs("#name").value,level:qs("#level").value,goal:+qs("#goal").value||15};localStorage.ee_profile=JSON.stringify(profile);try{await api("/api/profile",{method:"POST",body:JSON.stringify(profile)})}catch{}location.reload()};
-
-async function pushSetup(){if(!("serviceWorker"in navigator)||!("PushManager"in window)){alert("Push notifications are not supported here.");return}
-let k=await api("/api/vapid-public-key");if(!k.publicKey){alert("Server push is not configured. Generate VAPID keys and put them in .env.");return}
-let reg=await navigator.serviceWorker.ready;let perm=await Notification.requestPermission();if(perm!=="granted"){alert("Notification permission was not granted.");return}
-let sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64(k.publicKey)});
-await api("/api/push/subscribe",{method:"POST",body:JSON.stringify({id,subscription:sub.toJSON()})});alert("Reminders enabled.")}
+async function pushSetup(){if(!("serviceWorker"in navigator)||!("PushManager"in window)){alert("Push notifications are not supported here.");return}let k=await api("/api/vapid-public-key");if(!k.publicKey){alert("Server push is not configured.");return}let reg=await navigator.serviceWorker.ready;let perm=await Notification.requestPermission();if(perm!=="granted"){alert("Notification permission was not granted.");return}let sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64(k.publicKey)});await api("/api/push/subscribe",{method:"POST",body:JSON.stringify({id,subscription:sub.toJSON()})});alert("Reminders enabled.")}
 function urlBase64(b){const p="=".repeat((4-b.length%4)%4),s=(b+p).replace(/-/g,"+").replace(/_/g,"/"),r=atob(s),a=new Uint8Array(r.length);for(let i=0;i<r.length;i++)a[i]=r.charCodeAt(i);return a}
-qs("#enablePush").onclick=()=>pushSetup().catch(e=>alert(e.message));
-qs("#testPush").onclick=async()=>{try{let j=await api("/api/push/test",{method:"POST",body:"{}"});alert("Sent to "+j.sent+" device(s).")}catch(e){alert(e.message)}};
+qs("#enablePush").onclick=()=>pushSetup().catch(e=>alert(e.message));qs("#testPush").onclick=async()=>{try{let j=await api("/api/push/test",{method:"POST",body:"{}"});alert("Sent to "+j.sent+" device(s).")}catch(e){alert(e.message)}};
 if("serviceWorker"in navigator)navigator.serviceWorker.register("/sw.js");
 </script>
 </body></html>
