@@ -1,53 +1,54 @@
-# English Environment AI Coach v3
+# English Environment AI Coach v4
 
-This is the full starter project for the "English everywhere" system.
+A mobile-first English conversation coach with OpenAI memory, speaking practice, PWA install, reminders, and optional natural AI voice through ElevenLabs.
 
-## What it does
-- Real AI English coach through the OpenAI Responses API
-- Conversation history stored locally on the server in data/users.json
-- User profile: name, level, daily goal
-- Voice input using the browser microphone
-- Spoken AI replies using the browser's speech synthesis
-- Daily speaking missions
-- Streak and speaking-minute tracking
-- Installable PWA
-- Optional Web Push subscription support
-- API key stays on the server; it is NEVER placed in browser JavaScript
+## What changed in v4
+- Polished mobile-first conversation UI.
+- Warm, conversational coaching prompt designed for longer, natural English practice.
+- Optional ElevenLabs natural voice on the server; API key is never exposed to the browser.
+- Indian/Desi English voices are supported: choose a suitable voice in the ElevenLabs Voice Library and set its Voice ID.
+- ElevenLabs v4 is the default TTS model; device speech synthesis remains as a fallback.
+- Hands-free conversation mode: after a reply, the app can return to listening.
+- Better recent-conversation memory and contextual callbacks.
+- Gentle corrections instead of grammar-heavy replies.
 
-## Run on a computer
-1. Install Node.js 20+.
-2. Extract this ZIP.
-3. Open a terminal in the project folder.
-4. Run: npm install
-5. Copy `.env.example` to `.env`.
-6. Put your OpenAI API key in `.env`:
-   OPENAI_API_KEY=...
-7. Run: npm start
-8. Open: http://localhost:3000
-9. On Android Chrome, use Menu -> Add to Home screen / Install app.
+## Local setup
+Requires Node.js 20+.
 
-## AI model
-The default is `gpt-6-luna` and can be changed with OPENAI_MODEL in `.env`.
+```bash
+npm install
+cp .env.example .env
+npm start
+```
 
-## Reminders
-For Web Push:
-1. Run: npx web-push generate-vapid-keys
-2. Put the public/private keys into `.env`.
-3. Set VAPID_SUBJECT to a valid mailto address.
-4. Restart the server.
-5. Open the app over HTTPS when deployed (localhost is okay for development).
-6. Tap Settings -> Enable reminders.
+Open `http://localhost:3000`.
 
-This starter includes subscription + test notification. A production scheduler can call `/api/push/test` from a cron/job at chosen times. For a true per-user scheduler, store each user's timezone and reminder times and run a scheduled job.
+## Render setup
+Use **New Web Service** from your GitHub repo.
 
-## Deploy
-Use any Node.js host that supports environment variables and a persistent writable volume if you want server-side memory to persist. For production, replace the JSON storage with a database.
+- Build Command: `npm install`
+- Start Command: `npm start`
+- Free plan is sufficient for testing.
+
+Add these environment variables in Render. **Never paste secret values into GitHub or chat.**
+
+```text
+OPENAI_API_KEY=your-new-openai-key
+OPENAI_MODEL=gpt-6-luna
+ELEVENLABS_API_KEY=your-elevenlabs-key
+ELEVENLABS_VOICE_ID=your-selected-voice-id
+ELEVENLABS_MODEL=eleven_v4
+ELEVENLABS_OUTPUT_FORMAT=mp3_44100_128
+```
+
+The existing VAPID variables remain optional for push reminders.
+
+## Choosing the voice
+In ElevenLabs, open the Voice Library and choose an Indian/Desi English voice with the personality you want. A warm, friendly, conversational voice is recommended for this app. Copy its Voice ID into `ELEVENLABS_VOICE_ID` on Render.
+
+Do not clone or imitate a real person's voice without permission. The app is designed to sound warm and engaging, not to pretend that the AI is a real romantic partner.
 
 ## Security
-- Do not commit `.env`.
-- Do not put OPENAI_API_KEY in `public/`.
-- Add authentication before using this for multiple users.
-- The included memory is intentionally simple and single-user friendly.
-
-## Why Responses API
-New integrations should use the Responses API; the legacy Assistants API was sunset on August 26, 2026.
+- Keep `OPENAI_API_KEY` and `ELEVENLABS_API_KEY` server-side.
+- `.env` is ignored by Git.
+- If an API key has ever been exposed in a screenshot/chat, revoke it and create a new one.
