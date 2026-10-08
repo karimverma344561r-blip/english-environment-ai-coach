@@ -158,6 +158,5 @@ app.post("/api/push/test", async (req,res)=>{
   res.json({sent});
 });
 
-app.get("*", (req,res)=>res.sendFile(path.join(__dirname,"public","index.html")));
-
+app.get("/{*splat}", (req,res)=>res.sendFile(path.join(__dirname,"public","index.html")));
 app.listen(PORT,()=>console.log(`English Environment running at http://localhost:${PORT}`));
